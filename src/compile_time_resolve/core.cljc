@@ -19,7 +19,7 @@
            (cljs/eval env/*compiler*
                       expr
                       {:ns      (.-name *ns*)
-                       :context :statement}
+                       :context :expr}
                       (fn [{:keys [value error]}]
                         (if error
                           (throw (js/Error. (str error)))
