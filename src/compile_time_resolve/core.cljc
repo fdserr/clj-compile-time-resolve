@@ -14,17 +14,16 @@
      (defn eval
        "Evaluates the expression."
        [expr]
-       (binding [ana/*allow-ns* true]
-         (let [result (volatile! nil)]
-           (cljs/eval env/*compiler*
-                      expr
-                      {:ns      (.-name *ns*)
-                       :context :expr}
-                      (fn [{:keys [value error]}]
-                        (if error
-                          (throw (js/Error. (str error)))
-                          (vreset! result value))))
-           @result)))))
+       (let [result (volatile! nil)]
+         (cljs/eval env/*compiler*
+                    expr
+                    {:ns      (.-name *ns*)
+                     :context :expr}
+                    (fn [{:keys [value error]}]
+                      (if error
+                        (throw (js/Error. (str error)))
+                        (vreset! result value))))
+         @result))))
 
 (compile-time
   (defn resolve
@@ -33,7 +32,8 @@
     (let [ns-sym (symbol (namespace sym))]
       #?(:clj  (do (require ns-sym)
                    (clojure.core/resolve sym))
-         :cljs (do (eval `(require '~ns-sym))
+         :cljs (do (binding [ana/*allow-ns* true]
+                     (eval `(require '~ns-sym)))
                    (eval `(~'var ~sym)))))))
 
 (compile-time
