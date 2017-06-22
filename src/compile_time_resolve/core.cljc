@@ -27,7 +27,7 @@
 
 (compile-time
   (defn resolve
-    "Resolves a symbol to var."
+    "Resolves a fully qualified symbol to a var. Does not require its namespace to be already required."
     [sym]
     (let [ns-sym (symbol (namespace sym))]
       #?(:clj  (do (require ns-sym)

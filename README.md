@@ -11,12 +11,17 @@ to `deftime` in [macrovich](https://github.com/cgrand/macrovich))
 their name would suggest, and `compile-time-resolve-and-invoke` simply invokes
 `resolve` during its macroexpansion (it's there only to demonstrate `resolve`).
 
+> Note that `resolve` currently only works with fully qualified symbols, and does
+not require the namespace to be already required.
+
 `compile-time-resolve.test2` defines a function `cake` which returns `:cake`.
 Very intriguing.
 
 `compile-time-resolve.test` defines a var `x` with an initial value computed at
 compile time with the `cake` function above (also note it's not necessary to
 require `compile-time-resolve.test2` anywhere!).
+
+
 
 # Try it out
 
