@@ -1,27 +1,14 @@
-This is a simple project demonstrating a proof of concept, compile-time,
-portable `resolve` function.
+This is a simple project demonstrating a proof of concept, compile-time, portable `resolve` function.
 
 # About this project
 
-`compile-time-resolve.core-macros` defines a `compile-time` macro, which emits
-its body only if it's compiled as clojure or self-hosted clojurescript (similar
-to `deftime` in [macrovich](https://github.com/cgrand/macrovich))
+`compile-time-resolve.core-macros` defines a `compile-time` macro, which emits its body only if it's compiled as clojure or self-hosted clojurescript (similar to `deftime` in [macrovich](https://github.com/cgrand/macrovich))
 
-`compile-time-resolve.core` defines 3 functions: `eval` and `resolve` do what
-their name would suggest, and `compile-time-resolve-and-invoke` simply invokes
-`resolve` during its macroexpansion (it's there only to demonstrate `resolve`).
+`compile-time-resolve.core` defines 3 functions: `eval` and `resolve` do what their name would suggest, and `compile-time-resolve-and-invoke` simply invokes `resolve` during its macroexpansion (it's there only to demonstrate `resolve`).
 
-> Note that `resolve` currently only works with fully qualified symbols, and does
-not require the namespace to be already required.
+`compile-time-resolve.test2` defines a series of `cake-x` functions which return `cake-x`.
 
-`compile-time-resolve.test2` defines a function `cake` which returns `:cake`.
-Very intriguing.
-
-`compile-time-resolve.test` defines a var `x` with an initial value computed at
-compile time with the `cake` function above (also note it's not necessary to
-require `compile-time-resolve.test2` anywhere!).
-
-
+`compile-time-resolve.test` defines a var `x` with an initial value computed at compile time with the `cake-x` functions above.
 
 # Try it out
 
@@ -64,8 +51,7 @@ Or, on windows:
 > java -cp "cljs.jar;src" clojure.main build.clj
 ```
 
-Should be pretty quick, no error messages are expected. Check out
-`out/compile_time_resolve/test.js`, should contain something like:
+Should be pretty quick, no error messages are expected. Check out `out/compile_time_resolve/test.js`, should contain something like:
 
 ```
 // Compiled by ClojureScript 1.9.562 {}
