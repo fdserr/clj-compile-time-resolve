@@ -28,11 +28,11 @@ Or, on windows:
 
 Then, in the repl:
 
-```
+```clojure
 user=> (require '[compile-time-resolve.test :refer [x]])
 nil
 user=> x
-:cake
+[:cake-1 :cake-2 :cake-3 :cake-4 0]
 ```
 
 Works!
@@ -58,7 +58,12 @@ Should be pretty quick, no error messages are expected. Check out `out/compile_t
 goog.provide('compile_time_resolve.test');
 goog.require('cljs.core');
 goog.require('compile_time_resolve.core');
-compile_time_resolve.test.x = new cljs.core.Keyword(null,"cake","cake",633028020);
+goog.require('compile_time_resolve.test2');
+compile_time_resolve.test.x = new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [
+  new cljs.core.Keyword(null,"cake-1","cake-1",950575260),
+  new cljs.core.Keyword(null,"cake-2","cake-2",2048094000),
+  new cljs.core.Keyword(null,"cake-3","cake-3",738325015),
+  new cljs.core.Keyword(null,"cake-4","cake-4",2031950722),(0)], null);
 
 //# sourceMappingURL=test.js.map
 ```
@@ -69,12 +74,12 @@ Absolutely no trace of our shenanigans!
 
 I'll use [lumo](https://github.com/anmonteiro/lumo), but it should work equally well with any other self-hosted environment.
 
-```
+```clojure
 > lumo -c src
 cljs.user=> (require '[compile-time-resolve.test :refer [x]])
 nil
 cljs.user=> x
-:cake
+[:cake-1 :cake-2 :cake-3 :cake-4 0]
 ```
 
 No error messages, so we're good!
