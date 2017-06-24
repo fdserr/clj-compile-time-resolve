@@ -6,8 +6,7 @@
 (compile-time
   ;; Do these here, let's not mess with the JVM cljs ns form (maybe it messes up advanced builds?)
   #?(:cljs (require '[cljs.js :as cljs]
-                    '[cljs.env :as env]
-                    '[cljs.analyzer :as ana])))
+                    '[cljs.env :as env])))
 
 (compile-time
   #?(:cljs
@@ -28,16 +27,14 @@
 (compile-time
   (defn resolve
     "Resolves a fully qualified symbol to a var. Does not require its namespace to be already required."
-    [sym]
-    (let [ns-sym (symbol (namespace sym))]
-      #?(:clj  (do (require ns-sym)
-                   (clojure.core/resolve sym))
-         :cljs (do (binding [ana/*allow-ns* true]
-                     (eval `(require '~ns-sym)))
-                   (eval `(~'var ~sym)))))))
+    [env sym]
+    #?(:clj  (do (when (some? (:ns env))
+                   (require (.getName ^clojure.lang.Namespace *ns*)))
+                 (clojure.core/resolve sym))
+       :cljs (eval `(~'var ~sym)))))
 
 (compile-time
   (defmacro compile-time-resolve-and-invoke
     "Resolves the symbol at compile time and invokes the function bound to it, emitting the result."
     [sym]
-    ((resolve sym))))
+    ((resolve &env sym))))
