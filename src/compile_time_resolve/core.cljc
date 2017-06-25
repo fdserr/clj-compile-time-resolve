@@ -29,7 +29,7 @@
     "Resolves a fully qualified symbol to a var. Does not require its namespace to be already required."
     [env sym]
     #?(:clj  (do (when (some? (:ns env))
-                   (require (.getName ^clojure.lang.Namespace *ns*)))
+                   (require (ns-name *ns*)))
                  (clojure.core/resolve sym))
        :cljs (eval `(~'var ~sym)))))
 
